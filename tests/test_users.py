@@ -23,7 +23,7 @@ class TestUsers:
         assert_status_code(response=response,expected=StatusCodes.Created)
     
         body = response.json()
-        assert body["name"].strip() == "Nichasius"
+        assert body["name"].strip() == UserTestData.valid_user_payload["name"]
         assert "id" in body
     
     def test_delete_user(self, users_api):
