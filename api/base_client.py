@@ -17,7 +17,7 @@ class BaseClient:
         self.headers = headers
         self.timeout = timeout
 
-    def _request(self, method: str, endpoint: str, **kwargs: Any) -> Response:
+    def _request(self, method: str, endpoint: str, payload: dict[str, Any] | None = None,) -> Response:
         """Send an HTTP request using the configured session."""
         url = f"{self.base_url}{endpoint}"
         response = self.session.request(
@@ -25,22 +25,24 @@ class BaseClient:
             url=url,
             headers=self.headers,
             timeout=self.timeout,
-            **kwargs
+            json=payload
         )
         return response
 
-    def get(self, endpoint: str, **kwargs: Any) -> Response:
+    def get(self, endpoint: str, payload: dict[str, Any] | None) -> Response:
         """Send a GET request."""
-        return self._request("GET", endpoint, **kwargs)
+        return self._request(method="GET", endpoint=endpoint, payload=payload)
 
-    def post(self, endpoint: str, **kwargs: Any) -> Response:
+    def post(self, endpoint: str, payload: dict[str, Any] | None) -> Response:
         """Send a POST request. Return requests.Response` object"""
-        return self._request("POST", endpoint, **kwargs)
+        if not payload:
+            raise ValueError("POST request requires keyword arguments")
+        return self._request(method="POST", endpoint=endpoint, payload=payload)
 
-    def put(self, endpoint: str, **kwargs: Any) -> Response:
+    def put(self, endpoint: str, payload: dict[str, Any] | None) -> Response:
         """Send a PUT request. Return requests.Response` object"""
-        return self._request("PUT", endpoint, **kwargs)
+        return self._request(method="PUT", endpoint=endpoint, payload=payload)
 
-    def delete(self, endpoint: str, **kwargs: Any) -> Response:
+    def delete(self, endpoint: str, payload: dict[str, Any] | None) -> Response:
         """Send a DELETE request. Return requests.Response` object"""
-        return self._request("DELETE", endpoint, **kwargs)
+        return self._request(method="DELETE", endpoint=endpoint, payload=payload)
