@@ -13,7 +13,7 @@ class ProductsAPI:
     def get_products(self, page: int = 1) -> Dict[str, Any]:
         """Retrieve a paginated list of products.
         Return response payload or status information from get action"""
-        return self.client.get("/products", params={"page": page})
+        return self.client.get("/products", payload={"page": page})
 
     def get_product(self, product_id: int) -> Dict[str, Any]:
         """Retrieve a single product by ID.
@@ -23,9 +23,9 @@ class ProductsAPI:
     def create_product(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         """Create a new product.
         Return response payload or status information from the post action"""
-        return self.client.post("/products", json=payload)
+        return self.client.post("/products", payload=payload)
 
     def delete_product(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         """Delete a product.
         Return response payload or status information from the delete action"""
-        return self.client.delete("/products", json=payload)
+        return self.client.delete("/products", payload=payload)

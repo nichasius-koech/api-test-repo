@@ -17,7 +17,7 @@ class BaseClient:
         self.headers = headers
         self.timeout = timeout
 
-    def _request(self, method: str, endpoint: str, payload: dict[str, Any] | None = None,) -> Response:
+    def _request(self, method: str, endpoint: str, payload: dict[str, Any] | None = None) -> Response:
         """Send an HTTP request using the configured session."""
         url = f"{self.base_url}{endpoint}"
         response = self.session.request(
@@ -29,14 +29,12 @@ class BaseClient:
         )
         return response
 
-    def get(self, endpoint: str, payload: dict[str, Any] | None) -> Response:
+    def get(self, endpoint: str, payload: dict[str, Any] | None = None) -> Response:
         """Send a GET request."""
         return self._request(method="GET", endpoint=endpoint, payload=payload)
 
     def post(self, endpoint: str, payload: dict[str, Any] | None) -> Response:
         """Send a POST request. Return requests.Response` object"""
-        if not payload:
-            raise ValueError("POST request requires keyword arguments")
         return self._request(method="POST", endpoint=endpoint, payload=payload)
 
     def put(self, endpoint: str, payload: dict[str, Any] | None) -> Response:
